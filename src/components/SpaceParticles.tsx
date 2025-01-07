@@ -4,13 +4,19 @@ import * as THREE from "three";
 
 const SpaceParticles = ({ count = 2000 }) => {
   const mesh = useRef<THREE.Points>(null);
+  
+  // Create geometry with vertices
+  const geometry = new THREE.BufferGeometry();
   const positions = new Float32Array(count * 3);
-
+  
   for (let i = 0; i < count; i++) {
     positions[i * 3] = (Math.random() - 0.5) * 50;
     positions[i * 3 + 1] = (Math.random() - 0.5) * 50;
     positions[i * 3 + 2] = (Math.random() - 0.5) * 50;
   }
+  
+  // Set the positions attribute
+  geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
 
   useFrame((state) => {
     if (mesh.current) {
@@ -20,15 +26,7 @@ const SpaceParticles = ({ count = 2000 }) => {
   });
 
   return (
-    <points ref={mesh}>
-      <bufferGeometry>
-        <bufferAttribute
-          attach="attributes-position"
-          count={positions.length / 3}
-          array={positions}
-          itemSize={3}
-        />
-      </bufferGeometry>
+    <points ref={mesh} geometry={geometry}>
       <pointsMaterial
         size={0.05}
         color="#8b5cf6"
