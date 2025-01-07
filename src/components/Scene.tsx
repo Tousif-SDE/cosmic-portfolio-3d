@@ -9,7 +9,9 @@ const Scene = () => {
       <Canvas
         camera={{ position: [0, 0, 5], fov: 75 }}
         gl={{ antialias: true, alpha: true }}
+        dpr={[1, 2]}
       >
+        <color attach="background" args={['black']} />
         <Suspense fallback={null}>
           <ambientLight intensity={0.5} />
           <pointLight position={[10, 10, 10]} />
