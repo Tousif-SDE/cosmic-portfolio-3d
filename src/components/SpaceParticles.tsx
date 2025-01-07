@@ -2,14 +2,14 @@ import { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 
-const SpaceParticles = ({ count = 2000 }) => {
+const SpaceParticles = ({ count = 1000 }) => {
   const mesh = useRef<THREE.Points>(null);
-
   const positions = new Float32Array(count * 3);
+  
   for (let i = 0; i < count; i++) {
-    positions[i * 3] = (Math.random() - 0.5) * 50;
-    positions[i * 3 + 1] = (Math.random() - 0.5) * 50;
-    positions[i * 3 + 2] = (Math.random() - 0.5) * 50;
+    positions[i * 3] = (Math.random() - 0.5) * 20;
+    positions[i * 3 + 1] = (Math.random() - 0.5) * 20;
+    positions[i * 3 + 2] = (Math.random() - 0.5) * 20;
   }
 
   useFrame(() => {
