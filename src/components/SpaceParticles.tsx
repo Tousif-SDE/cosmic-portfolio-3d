@@ -4,8 +4,9 @@ import * as THREE from "three";
 
 const SpaceParticles = ({ count = 2000 }) => {
   const points = useRef<THREE.Points>(null);
-
-  const particlesPosition = useMemo(() => {
+  
+  const geometry = useMemo(() => {
+    const geo = new THREE.BufferGeometry();
     const positions = new Float32Array(count * 3);
     
     for (let i = 0; i < count; i++) {
@@ -14,10 +15,11 @@ const SpaceParticles = ({ count = 2000 }) => {
       positions[i * 3 + 2] = (Math.random() - 0.5) * 50;
     }
     
-    return positions;
+    geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    return geo;
   }, [count]);
 
-  useFrame((state) => {
+  useFrame(() => {
     if (points.current) {
       points.current.rotation.x += 0.0001;
       points.current.rotation.y += 0.0001;
@@ -25,16 +27,7 @@ const SpaceParticles = ({ count = 2000 }) => {
   });
 
   return (
-    <points ref={points}>
-      <bufferGeometry>
-        <bufferAttribute
-          attach="attributes-position"
-          count={count}
-          array={particlesPosition}
-          itemSize={3}
-          normalized={false}
-        />
-      </bufferGeometry>
+    <points ref={points} geometry={geometry}>
       <pointsMaterial
         size={0.05}
         color="#8b5cf6"
